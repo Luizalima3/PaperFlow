@@ -9,23 +9,41 @@ import paperflow.dominio.Veredito;
 import paperflow.dominio.categoria.CategoriaEvento;
 import paperflow.dominio.categoria.CategoriaFullPaper;
 import paperflow.infra.notificacao.Email;
+import paperflow.infra.notificacao.ServicoEmail;
+import paperflow.infra.notificacao.ServicoEmailSmtp;
 import java.time.LocalDateTime;
 import java.util.*;
 
 public class Main {
+    
+    private static class ServicoEmailTeste implements ServicoEmail {
+        @Override
+        public void enviar(String destinatario, String assunto, String corpo) {
+            System.out.println("[SIMULADO] Email para: " + destinatario);
+        }
+    }
+    
     public static void main(String[] args) {
-        SistemaSubmissoes sistema = new SistemaSubmissoes();
-
-        System.out.println("=== SIMULACAO COMPLETA: SUBMISSAO, REVISAO E RESULTADO ===");
+        System.out.println("=== SIMULACAO COMPLETA: SUBMISSAO, REVISAO E RESULTADO ===\n");
+        
+        // Para enviar emails de verdade, descomente a linha abaixo e coloque suas credenciais:
+        // ServicoEmail servicoEmail = new ServicoEmailSmtp("smtp.gmail.com", 587, "lui", "bhla ltde rvcm enad");
+        
+        // Modo TESTE - apenas simula emails (padrão)
+        // Comente a linha abaixo e descomente a linha acima para enviar emails de verdade
+        ServicoEmail servicoEmail = new ServicoEmailTeste();
+        System.out.println("[MODO TESTE] Emails serao apenas simulados (nao enviados).\n\n");
+        
+        SistemaSubmissoes sistema = new SistemaSubmissoes(servicoEmail, 2);
 
         try {
-            sistema.cadastrarUsuario("jose.cruz@ifpb.edu.br", "senha123", "IFPB");
-            sistema.cadastrarUsuario("maria.geografia@escola.com", "senha456", "UFPB");
-            sistema.cadastrarUsuario("coordenadora.damires@ifpb.edu.br", "senha789", "IFPB");
-            sistema.cadastrarUsuario("coautor.silva@ifpb.edu.br", "abc111", "IFPB");
-            sistema.cadastrarUsuario("revisor.ana@ifpb.edu.br", "r1", "IFPB");
-            sistema.cadastrarUsuario("revisor.bruno@ifpb.edu.br", "r2", "UFPB");
-            sistema.cadastrarUsuario("revisor.clara@ifpb.edu.br", "r3", "UFPE");
+            sistema.cadastrarUsuario("jose.cruzz@ifpb.edu.br", "senha123", "IFPB");
+            sistema.cadastrarUsuario("maria.geografiaaa@escola.com", "senha456", "UFPB");
+            sistema.cadastrarUsuario("coordenadoraaaa.damires@ifpb.edu.br", "senha789", "IFPB");
+            sistema.cadastrarUsuario("coautorr.silva@ifpb.edu.br", "abc111", "IFPB");
+            sistema.cadastrarUsuario("revisor.anaa@ifpb.edu.br", "r1", "IFPB");
+            sistema.cadastrarUsuario("revisor.brunoo@ifpb.edu.br", "r2", "UFPB");
+            sistema.cadastrarUsuario("revisor.claraa@ifpb.edu.br", "r3", "UFPE");
             System.out.println("[OK] Usuarios de teste cadastrados.");
 
             sistema.cadastrarAreaTematica("Inteligência Artificial");
@@ -48,25 +66,25 @@ public class Main {
             System.out.println("     Categoria: " + sistema.getEventoAtual().getCategoria().getNomeCategoria());
 
             sistema.registrarRevisorNoComite(
-                    "revisor.ana@ifpb.edu.br",
+                    "revisor.anaa@ifpb.edu.br",
                     new HashSet<>(Arrays.asList("inteligência artificial", "machine learning", "visao computacional")));
             sistema.registrarRevisorNoComite(
-                    "revisor.bruno@ifpb.edu.br",
+                    "revisor.brunoo@ifpb.edu.br",
                     new HashSet<>(Arrays.asList("engenharia de software", "machine learning")));
             sistema.registrarRevisorNoComite(
-                    "revisor.clara@ifpb.edu.br",
+                    "revisor.claraa@ifpb.edu.br",
                     new HashSet<>(Arrays.asList("engenharia de software", "visao computacional")));
             System.out.println("[OK] Comite tecnico registrado com " + sistema.getRevisoresComite().size() + " revisores.");
 
             Set<String> areasArtigo1 = new HashSet<>(Arrays.asList("Engenharia de Software", "Machine Learning"));
             Set<String> areasArtigo2 = new HashSet<>(Arrays.asList("Visao Computacional"));
-            List<String> coautores = Arrays.asList("coautor.silva@ifpb.edu.br");
+            List<String> coautores = Arrays.asList("coautorr.silva@ifpb.edu.br");
 
             sistema.submeterArtigo(
                 "249227",
                 "Um Levantamento sobre os principais erros cometidos na aplicação de padrões de projeto de software",
                 "Este artigo faz um levantamento prático de vários erros de aplicação de padrões...",
-                "jose.cruz@ifpb.edu.br",
+                "jose.cruzz@ifpb.edu.br",
                 coautores,
                 areasArtigo1
             );
@@ -75,7 +93,7 @@ public class Main {
                 "249228",
                 "Sistema de apoio visual para leitura de exames",
                 "Trabalho de demonstracao com tecnicas de visao computacional.",
-                "maria.geografia@escola.com",
+                "maria.geografiaaa@escola.com",
                 Collections.emptyList(),
                 areasArtigo2
             );
@@ -86,32 +104,32 @@ public class Main {
 
             sistema.executarAcao(new AcaoReabrirSubmissao());
 
-            sistema.aceitarRevisao("249227", "revisor.ana@ifpb.edu.br");
-            sistema.aceitarRevisao("249227", "revisor.bruno@ifpb.edu.br");
-            sistema.aceitarRevisao("249228", "revisor.clara@ifpb.edu.br");
-            sistema.aceitarRevisao("249228", "revisor.ana@ifpb.edu.br");
+            sistema.aceitarRevisao("249227", "revisor.anaa@ifpb.edu.br");
+            sistema.aceitarRevisao("249227", "revisor.brunoo@ifpb.edu.br");
+            sistema.aceitarRevisao("249228", "revisor.claraa@ifpb.edu.br");
+            sistema.aceitarRevisao("249228", "revisor.anaa@ifpb.edu.br");
 
             sistema.concluirRevisao(
                     "249227",
-                    "revisor.ana@ifpb.edu.br",
+                    "revisor.anaa@ifpb.edu.br",
                     "Boa metodologia e delimitacao clara do problema.",
                     "Poderia trazer avaliacao experimental mais ampla.",
                     Veredito.FRACAMENTE_ACEITO);
             sistema.concluirRevisao(
                     "249227",
-                    "revisor.bruno@ifpb.edu.br",
+                    "revisor.brunoo@ifpb.edu.br",
                     "Tema relevante para qualidade de software.",
                     "Faltou comparacao com trabalhos mais recentes.",
                     Veredito.ACEITO);
             sistema.concluirRevisao(
                     "249228",
-                    "revisor.clara@ifpb.edu.br",
+                    "revisor.claraa@ifpb.edu.br",
                     "Prototipo funcional e facil de reproduzir.",
                     "Resultados ainda preliminares.",
                     Veredito.FRACAMENTE_ACEITO);
             sistema.concluirRevisao(
                     "249228",
-                    "revisor.ana@ifpb.edu.br",
+                    "revisor.anaa@ifpb.edu.br",
                     "Contribuicao pratica para apoio a diagnostico.",
                     "Necessita ampliar base de teste.",
                     Veredito.FRACAMENTE_ACEITO);
@@ -133,6 +151,16 @@ public class Main {
             System.out.println("\n=== RESULTADO FINAL ===");
             sistema.getArtigos().values().forEach(artigo ->
                     System.out.println("Artigo " + artigo.getId() + " => " + artigo.getNomeStatus()));
+
+
+            sistema.enviarEmail(
+                    "maria.lima.5@academico.ifpb.edu.br",
+                    "Teste de E-mail do Sistema PaperFlow",
+                    "Olá Maria,\n\n" +
+                    "Este é um teste do sistema de e-mail do PaperFlow.\n" +
+                    "Se você recebeu esta mensagem, o envio está funcionando corretamente!\n\n" +
+                    "Atenciosamente,\nSistema PaperFlow"
+            );
 
             System.out.println("\n=== E-MAILS ENVIADOS ===");
             for (Email email : sistema.getEmailsEnviados()) {

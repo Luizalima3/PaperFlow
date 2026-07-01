@@ -399,4 +399,11 @@ public class SistemaSubmissoes {
         }
         return artigo;
     }
+
+    /**
+     * Enviar e-mail para qualquer destinatario (usuario geral, professor, etc)
+     */
+    public void enviarEmail(String destinatario, String assunto, String corpo) {
+        servicoEmail.enviar(destinatario, assunto, corpo);
+    }
 }
