@@ -1,4 +1,4 @@
-package model;
+package paperflow.dominio;
 
 import java.util.ArrayList;
 import java.util.Collections;

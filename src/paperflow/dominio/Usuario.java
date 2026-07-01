@@ -1,4 +1,4 @@
-package model;
+package paperflow.dominio;
 
 import java.util.HashSet;
 import java.util.Set;

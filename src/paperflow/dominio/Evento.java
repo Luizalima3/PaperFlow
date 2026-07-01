@@ -1,7 +1,7 @@
-package model;
+package paperflow.dominio;
 
 import java.time.LocalDateTime;
-import strategy.TipoEventoStrategy;
+import paperflow.dominio.categoria.CategoriaEvento;
 
 // Gerencia as informações do congresso atual e valida as datas limites de envio.
 
@@ -10,10 +10,10 @@ public class Evento {
     private final String cidade;
     private final String periodo;
     private final LocalDateTime dataLimiteSubmissao;
-    private final TipoEventoStrategy categoria;
+    private final CategoriaEvento categoria;
     private boolean aberto;
 
-    public Evento(String nome, String cidade, String periodo, LocalDateTime dataLimite, TipoEventoStrategy categoria) {
+    public Evento(String nome, String cidade, String periodo, LocalDateTime dataLimite, CategoriaEvento categoria) {
         this.nome = nome;
         this.cidade = cidade;
         this.periodo = periodo;
@@ -32,5 +32,5 @@ public class Evento {
     
     public void setAberto(boolean aberto) { this.aberto = aberto; }
     public String getNome() { return nome; }
-    public TipoEventoStrategy getCategoria() { return categoria; }
+    public CategoriaEvento getCategoria() { return categoria; }
 }
