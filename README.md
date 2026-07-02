@@ -282,7 +282,7 @@ Diversos diagramas UML foram criados para documentar a arquitetura:
 - Diagramas de Arquitetura
 - Fluxogramas de Processos
 
-Todos os diagramas estão disponíveis em PDF na pasta `diagramas/`
+Todos os diagramas estão disponíveis em PDF na pasta [diagramas/](https://github.com/Luizalima3/PaperFlow/tree/main/diagramas/)
 
 ---
 
