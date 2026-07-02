@@ -24,10 +24,10 @@ git clone https://github.com/seu-usuario/paperflow.git
 cd paperflow
 ```
 
-Ou, se preferir usar HTTPS:
+Ou, se preferir usar SSH:
 
 ```bash
-git clone https://github.com/seu-usuario/paperflow.git
+git clone git@github.com:seu-usuario/paperflow.git
 cd paperflow
 ```
 
@@ -39,6 +39,7 @@ Após clonar o repositório, a estrutura do projeto será:
 
 ```
 paperflow/
+├── diagramas/
 ├── src/
 │   ├── java/
 │   │   └── br/edu/ifpb/paperflow/
@@ -180,12 +181,22 @@ Isso remove completamente o diretório `target/`.
 Quando a simulação for executada com sucesso, você verá na console:
 
 ```
-=== SIMULACAO COMPLETA: SUBMISSAO, REVISAO E RESULTADO ===
-[OK] Usuarios de teste cadastrados.
-[OK] Areas tematicas do evento configuradas.
-[OK] Evento 'Simpósio Brasileiro de Sistemas de Informação (SBSI) - 2026' iniciado.
-[OK] Comite tecnico registrado com 3 revisores.
-[OK] Artigos submetidos: 2
+=================================================
+   Sistema de Submissao e Revisao de Artigos
+   IFPB - Padrões de Projeto de Software
+=================================================
+
+[MODO TESTE] Emails serao apenas simulados (nao enviados).
+
+[1] Cadastro de usuarios
+[2] Evento e areas tematicas
+[3] Comitê tecnico e revisores
+[4] Submissao de artigos
+[5] Distribuicao automatica
+[6] Avaliacao e agregacao de resultado
+[7] Encerramento e notificacoes
+[8] Dashboard e resultado final
+[9] Teste de envio e historico de emails
 [SIMULADO] Email para: revisor.anaa@ifpb.edu.br
 [SIMULADO] Email para: revisor.claraa@ifpb.edu.br
 [SIMULADO] Email para: revisor.brunoo@ifpb.edu.br
@@ -202,7 +213,7 @@ Todos os emails estão sendo **simulados** (não são enviados de verdade, apena
 
 Para habilitar o envio de emails de verdade via SMTP/Gmail:
 
-1. **Abra `src/paperflow/Main.java`**
+1. **Abra `src/java/br/edu/ifpb/paperflow/Main.java`**
 
 2. **Localize as linhas referentes ao ServicoEmail (aproximadamente linha 20):**
 
@@ -223,7 +234,7 @@ ServicoEmail servicoEmail = new ServicoEmailTeste();
 
 ```bash
 mvn clean compile
-mvn exec:java -Dexec.mainClass=paperflow.Main
+mvn exec:java -Dexec.mainClass=br.edu.ifpb.paperflow.Main
 ```
 
 > ⚠️ **Importante:** Se usar Gmail, gere uma [Senha de Aplicativo](https://myaccount.google.com/apppasswords) em vez de usar a senha convencional da conta.
@@ -272,7 +283,7 @@ mvn clean -U
 | `mvn clean` | Remove arquivos compilados |
 | `mvn compile` | Compila o projeto |
 | `mvn clean compile` | Limpa e compila |
-| `mvn exec:java -Dexec.mainClass=paperflow.Main` | Executa a classe Main |
+| `mvn exec:java -Dexec.mainClass=br.edu.ifpb.paperflow.Main` | Executa a classe Main |
 | `mvn test` | Executa testes (se houver) |
 | `mvn package` | Cria JAR executável |
 
